@@ -1,686 +1,399 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Nikhil Singh | Portfolio - BCA Student & Web Developer</title>
-  
-  <!-- Font Awesome & Google Fonts -->
-  <link rel="stylesheet" href="[https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css](https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css)">
-  <link href="[https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500;600&display=swap](https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500;600&display=swap)" rel="stylesheet">
-  
-  <style>
-    :root {
-      --bg: #090d16;
-      --bg-alt: #111827;
-      --card-bg: rgba(17, 24, 39, 0.7);
-      --card-border: rgba(255, 255, 255, 0.08);
-      --text: #f3f4f6;
-      --text-muted: #9ca3af;
-      --primary: #6366f1;
-      --primary-hover: #4f46e5;
-      --accent: #06b6d4;
-      --gradient: linear-gradient(135deg, #6366f1 0%, #06b6d4 100%);
-      --glow: rgba(99, 102, 241, 0.25);
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    [data-theme="light"] {
-      --bg: #f8fafc;
-      --bg-alt: #ffffff;
-      --card-bg: rgba(255, 255, 255, 0.8);
-      --card-border: rgba(0, 0, 0, 0.08);
-      --text: #0f172a;
-      --text-muted: #64748b;
-      --primary: #4f46e5;
-      --primary-hover: #4338ca;
-      --accent: #0284c7;
-      --gradient: linear-gradient(135deg, #4f46e5 0%, #0284c7 100%);
-      --glow: rgba(79, 70, 229, 0.15);
-    }
+    <title>Modern Calculator</title>
 
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Plus Jakarta Sans', sans-serif;
-      scroll-behavior: smooth;
-    }
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Poppins", Arial, sans-serif;
+        }
 
-    body {
-      background-color: var(--bg);
-      color: var(--text);
-      transition: background-color 0.3s, color 0.3s;
-      overflow-x: hidden;
-    }
+        body {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background:
+                radial-gradient(circle at top left, #243b55, transparent 40%),
+                radial-gradient(circle at bottom right, #141e30, transparent 45%),
+                #0b1020;
+            padding: 20px;
+        }
 
-    .container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 1.5rem;
-    }
+        /* Calculator Box */
+        .calculator {
+            width: 360px;
+            padding: 22px;
+            border-radius: 28px;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            box-shadow:
+                0 25px 60px rgba(0, 0, 0, 0.5),
+                inset 0 1px 1px rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+        }
 
-    /* Navbar */
-    header {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      z-index: 1000;
-      background: rgba(9, 13, 22, 0.8);
-      backdrop-filter: blur(12px);
-      border-bottom: 1px solid var(--card-border);
-      transition: 0.3s;
-    }
+        /* Heading */
+        .title {
+            text-align: center;
+            color: white;
+            font-size: 22px;
+            font-weight: 600;
+            margin-bottom: 18px;
+            letter-spacing: 1px;
+        }
 
-    [data-theme="light"] header {
-      background: rgba(248, 250, 252, 0.8);
-    }
+        .title span {
+            color: #00e5ff;
+        }
 
-    nav {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      height: 70px;
-    }
+        /* Display */
+        .display {
+            width: 100%;
+            height: 100px;
+            border-radius: 20px;
+            border: none;
+            outline: none;
+            background: rgba(0, 0, 0, 0.35);
+            color: white;
+            text-align: right;
+            padding: 15px 18px;
+            font-size: 38px;
+            font-weight: 500;
+            margin-bottom: 20px;
+            box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.3);
+        }
 
-    .logo {
-      font-size: 1.5rem;
-      font-weight: 800;
-      background: var(--gradient);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      text-decoration: none;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
+        /* Buttons Grid */
+        .buttons {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+        }
 
-    .nav-links {
-      display: flex;
-      gap: 2rem;
-      align-items: center;
-      list-style: none;
-    }
+        button {
+            height: 65px;
+            border: none;
+            border-radius: 18px;
+            font-size: 22px;
+            font-weight: 600;
+            color: white;
+            background: rgba(255, 255, 255, 0.09);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow:
+                0 5px 12px rgba(0, 0, 0, 0.25),
+                inset 0 1px rgba(255, 255, 255, 0.08);
+        }
 
-    .nav-links a {
-      color: var(--text-muted);
-      text-decoration: none;
-      font-weight: 500;
-      font-size: 0.95rem;
-      transition: 0.3s;
-    }
+        /* Hover Effect */
+        button:hover {
+            transform: translateY(-3px);
+            background: rgba(255, 255, 255, 0.18);
+            box-shadow: 0 8px 20px rgba(0, 229, 255, 0.15);
+        }
 
-    .nav-links a:hover {
-      color: var(--primary);
-    }
+        /* Click Effect */
+        button:active {
+            transform: scale(0.92);
+        }
 
-    .theme-toggle {
-      background: none;
-      border: 1px solid var(--card-border);
-      color: var(--text);
-      padding: 0.5rem;
-      border-radius: 50%;
-      cursor: pointer;
-      width: 40px;
-      height: 40px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: 0.3s;
-    }
+        /* Clear Button */
+        .clear {
+            color: #ff5c7a;
+            background: rgba(255, 92, 122, 0.12);
+        }
 
-    .theme-toggle:hover {
-      border-color: var(--primary);
-      color: var(--primary);
-    }
+        .clear:hover {
+            background: rgba(255, 92, 122, 0.25);
+        }
 
-    /* Hero Section */
-    .hero {
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      padding-top: 80px;
-    }
+        /* Delete Button */
+        .delete {
+            color: #ffc857;
+        }
 
-    .hero-grid {
-      display: grid;
-      grid-template-columns: 1.2fr 0.8fr;
-      gap: 3rem;
-      align-items: center;
-    }
+        /* Operators */
+        .operator {
+            color: #00e5ff;
+            background: rgba(0, 229, 255, 0.10);
+        }
 
-    .badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      padding: 0.5rem 1rem;
-      background: rgba(99, 102, 241, 0.1);
-      border: 1px solid rgba(99, 102, 241, 0.2);
-      border-radius: 50px;
-      color: var(--primary);
-      font-size: 0.85rem;
-      font-weight: 600;
-      margin-bottom: 1.5rem;
-    }
+        .operator:hover {
+            background: rgba(0, 229, 255, 0.25);
+        }
 
-    .hero-title {
-      font-size: 3.5rem;
-      font-weight: 800;
-      line-height: 1.1;
-      margin-bottom: 1.2rem;
-    }
+        /* Equal Button */
+        .equals {
+            grid-column: span 2;
+            background: linear-gradient(135deg, #00c6ff, #0072ff);
+            color: white;
+        }
 
-    .hero-title span {
-      background: var(--gradient);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
+        .equals:hover {
+            background: linear-gradient(135deg, #00e5ff, #0066ff);
+            box-shadow: 0 8px 25px rgba(0, 160, 255, 0.4);
+        }
 
-    .typing-text {
-      font-size: 1.25rem;
-      color: var(--text-muted);
-      margin-bottom: 1.5rem;
-      font-weight: 500;
-    }
+        /* Zero Button */
+        .zero {
+            grid-column: span 2;
+        }
 
-    .hero-description {
-      color: var(--text-muted);
-      font-size: 1.05rem;
-      line-height: 1.6;
-      margin-bottom: 2rem;
-    }
+        /* Footer */
+        .footer {
+            text-align: center;
+            color: rgba(255, 255, 255, 0.45);
+            font-size: 12px;
+            margin-top: 18px;
+        }
 
-    .hero-buttons {
-      display: flex;
-      gap: 1rem;
-      flex-wrap: wrap;
-    }
+        /* Mobile Responsive */
+        @media (max-width: 400px) {
+            .calculator {
+                width: 100%;
+                max-width: 350px;
+                padding: 18px;
+            }
 
-    .btn {
-      padding: 0.8rem 1.8rem;
-      border-radius: 10px;
-      font-weight: 600;
-      text-decoration: none;
-      transition: 0.3s;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      cursor: pointer;
-      border: none;
-      font-size: 0.95rem;
-    }
+            button {
+                height: 60px;
+            }
 
-    .btn-primary {
-      background: var(--gradient);
-      color: #fff;
-      box-shadow: 0 10px 20px -5px var(--glow);
-    }
-
-    .btn-primary:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 15px 25px -5px var(--glow);
-    }
-
-    .btn-secondary {
-      background: transparent;
-      border: 1px solid var(--card-border);
-      color: var(--text);
-    }
-
-    .btn-secondary:hover {
-      border-color: var(--primary);
-      color: var(--primary);
-    }
-
-    /* Terminal Window Card */
-    .hero-card {
-      background: var(--card-bg);
-      border: 1px solid var(--card-border);
-      border-radius: 16px;
-      overflow: hidden;
-      box-shadow: 0 20px 40px rgba(0,0,0,0.3);
-    }
-
-    .card-header {
-      background: rgba(0, 0, 0, 0.2);
-      padding: 0.8rem 1rem;
-      display: flex;
-      gap: 0.5rem;
-    }
-
-    .dot {
-      width: 12px;
-      height: 12px;
-      border-radius: 50%;
-    }
-
-    .dot-red { background: #ff5f56; }
-    .dot-yellow { background: #ffbd2e; }
-    .dot-green { background: #27c93f; }
-
-    .card-body {
-      padding: 1.5rem;
-      font-family: 'Fira Code', monospace;
-      font-size: 0.9rem;
-    }
-
-    .code-line {
-      margin-bottom: 0.5rem;
-      color: var(--text-muted);
-    }
-
-    .code-keyword { color: #f43f5e; }
-    .code-function { color: #38bdf8; }
-    .code-string { color: #34d399; }
-
-    /* Section Styles */
-    section {
-      padding: 6rem 0;
-    }
-
-    .section-title {
-      font-size: 2.2rem;
-      font-weight: 800;
-      text-align: center;
-      margin-bottom: 0.5rem;
-    }
-
-    .section-subtitle {
-      text-align: center;
-      color: var(--text-muted);
-      margin-bottom: 3.5rem;
-    }
-
-    /* About Section */
-    .about-card {
-      background: var(--card-bg);
-      border: 1px solid var(--card-border);
-      border-radius: 20px;
-      padding: 2.5rem;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 2.5rem;
-    }
-
-    .about-info h3 {
-      font-size: 1.5rem;
-      margin-bottom: 1rem;
-    }
-
-    .about-info p {
-      color: var(--text-muted);
-      line-height: 1.7;
-      margin-bottom: 1.5rem;
-    }
-
-    .info-list {
-      list-style: none;
-      display: flex;
-      flex-direction: column;
-      gap: 0.8rem;
-    }
-
-    .info-list li {
-      display: flex;
-      align-items: center;
-      gap: 0.8rem;
-      color: var(--text);
-      font-size: 0.95rem;
-    }
-
-    .info-list i {
-      color: var(--primary);
-    }
-
-    /* Skills Grid */
-    .skills-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 1.5rem;
-    }
-
-    .skill-card {
-      background: var(--card-bg);
-      border: 1px solid var(--card-border);
-      border-radius: 16px;
-      padding: 1.8rem;
-      text-align: center;
-      transition: 0.3s;
-    }
-
-    .skill-card:hover {
-      transform: translateY(-5px);
-      border-color: var(--primary);
-    }
-
-    .skill-icon {
-      font-size: 2.5rem;
-      margin-bottom: 1rem;
-      background: var(--gradient);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-
-    /* Projects Section */
-    .projects-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-      gap: 2rem;
-    }
-
-    .project-card {
-      background: var(--card-bg);
-      border: 1px solid var(--card-border);
-      border-radius: 20px;
-      overflow: hidden;
-      transition: 0.3s;
-      display: flex;
-      flex-direction: column;
-    }
-
-    .project-card:hover {
-      transform: translateY(-8px);
-      border-color: var(--primary);
-      box-shadow: 0 15px 30px rgba(0,0,0,0.2);
-    }
-
-    .project-content {
-      padding: 1.8rem;
-      display: flex;
-      flex-direction: column;
-      flex-grow: 1;
-    }
-
-    .project-title {
-      font-size: 1.3rem;
-      margin-bottom: 0.8rem;
-    }
-
-    .project-desc {
-      color: var(--text-muted);
-      font-size: 0.95rem;
-      line-height: 1.5;
-      margin-bottom: 1.5rem;
-      flex-grow: 1;
-    }
-
-    .project-tags {
-      display: flex;
-      gap: 0.5rem;
-      margin-bottom: 1.5rem;
-      flex-wrap: wrap;
-    }
-
-    .tag {
-      font-size: 0.75rem;
-      padding: 0.3rem 0.8rem;
-      background: rgba(255, 255, 255, 0.05);
-      border-radius: 20px;
-      color: var(--accent);
-      border: 1px solid var(--card-border);
-    }
-
-    /* Contact Section */
-    .contact-container {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 3rem;
-    }
-
-    .contact-info-card {
-      background: var(--card-bg);
-      border: 1px solid var(--card-border);
-      border-radius: 20px;
-      padding: 2.5rem;
-      display: flex;
-      flex-direction: column;
-      gap: 2rem;
-    }
-
-    .contact-item {
-      display: flex;
-      align-items: center;
-      gap: 1.2rem;
-    }
-
-    .contact-icon {
-      width: 50px;
-      height: 50px;
-      background: rgba(99, 102, 241, 0.1);
-      border-radius: 12px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: var(--primary);
-      font-size: 1.2rem;
-    }
-
-    /* Footer */
-    footer {
-      border-top: 1px solid var(--card-border);
-      padding: 2rem 0;
-      text-align: center;
-      color: var(--text-muted);
-      font-size: 0.9rem;
-    }
-
-    /* Responsive */
-    @media (max-width: 868px) {
-      .hero-grid, .about-card, .contact-container {
-        grid-template-columns: 1fr;
-      }
-      .hero-title {
-        font-size: 2.5rem;
-      }
-      .nav-links {
-        display: none;
-      }
-    }
-  </style>
+            .display {
+                height: 90px;
+                font-size: 32px;
+            }
+        }
+    </style>
 </head>
+
 <body>
 
-  <!-- Navbar -->
-  <header>
-    <div class="container">
-      <nav>
-        <a href="#" class="logo"><i class="fa-solid fa-code"></i> Nikhil.Singh</a>
-        <ul class="nav-links">
-          <li><a href="#about">About</a></li>
-          <li><a href="#skills">Skills</a></li>
-          <li><a href="#projects">Projects</a></li>
-          <li><a href="#contact">Contact</a></li>
-        </ul>
-        <button class="theme-toggle" id="themeToggle"><i class="fa-solid fa-moon"></i></button>
-      </nav>
+    <div class="calculator">
+
+        <div class="title">
+            ✨ <span>Smart</span> Calculator
+        </div>
+
+        <!-- Display -->
+        <input
+            type="text"
+            id="display"
+            class="display"
+            value="0"
+            readonly
+        >
+
+        <!-- Calculator Buttons -->
+        <div class="buttons">
+
+            <!-- First Row -->
+            <button class="clear" onclick="clearDisplay()">AC</button>
+            <button class="delete" onclick="deleteLast()">⌫</button>
+            <button class="operator" onclick="addOperator('%')">%</button>
+            <button class="operator" onclick="addOperator('/')">÷</button>
+
+            <!-- Second Row -->
+            <button onclick="addNumber('7')">7</button>
+            <button onclick="addNumber('8')">8</button>
+            <button onclick="addNumber('9')">9</button>
+            <button class="operator" onclick="addOperator('*')">×</button>
+
+            <!-- Third Row -->
+            <button onclick="addNumber('4')">4</button>
+            <button onclick="addNumber('5')">5</button>
+            <button onclick="addNumber('6')">6</button>
+            <button class="operator" onclick="addOperator('-')">−</button>
+
+            <!-- Fourth Row -->
+            <button onclick="addNumber('1')">1</button>
+            <button onclick="addNumber('2')">2</button>
+            <button onclick="addNumber('3')">3</button>
+            <button class="operator" onclick="addOperator('+')">+</button>
+
+            <!-- Fifth Row -->
+            <button class="zero" onclick="addNumber('0')">0</button>
+            <button onclick="addDecimal()">.</button>
+            <button class="equals" onclick="calculate()">=</button>
+
+        </div>
+
+        <div class="footer">
+            HTML • CSS • JavaScript
+        </div>
+
     </div>
-  </header>
 
-  <!-- Hero Section -->
-  <section class="hero">
-    <div class="container">
-      <div class="hero-grid">
-        <div>
-          <div class="badge"><i class="fa-solid fa-graduation-cap"></i> BCA Scholar @ Vishveshwarya</div>
-          <h1 class="hero-title">Hi, I'm <span>Nikhil Singh</span></h1>
-          <div class="typing-text">Frontend & C Language Developer</div>
-          <p class="hero-description">
-            Passionate Computer Applications student focused on web development and programming fundamentals. Building clean UI layouts and functional applications.
-          </p>
-          <div class="hero-buttons">
-            <a href="#projects" class="btn btn-primary"><i class="fa-solid fa-laptop-code"></i> View Projects</a>
-            <a href="#contact" class="btn btn-secondary"><i class="fa-solid fa-paper-plane"></i> Contact Me</a>
-          </div>
-        </div>
 
-        <!-- C Code Display Card -->
-        <div class="hero-card">
-          <div class="card-header">
-            <div class="dot dot-red"></div>
-            <div class="dot dot-yellow"></div>
-            <div class="dot dot-green"></div>
-          </div>
-          <div class="card-body">
-            <div class="code-line"><span class="code-keyword">#include</span> &lt;stdio.h&gt;</div>
-            <div class="code-line"><span class="code-keyword">int</span> <span class="code-function">main</span>() {</div>
-            <div class="code-line">&nbsp;&nbsp;<span class="code-function">printf</span>(<span class="code-string">"Hello World!\n"</span>);</div>
-            <div class="code-line">&nbsp;&nbsp;<span class="code-function">printf</span>(<span class="code-string">"Welcome to Nikhil's Portfolio"</span>);</div>
-            <div class="code-line">&nbsp;&nbsp;<span class="code-keyword">return</span> 0;</div>
-            <div class="code-line">}</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
+    <script>
 
-  <!-- About Section -->
-  <section id="about">
-    <div class="container">
-      <h2 class="section-title">About Me</h2>
-      <p class="section-subtitle">My academic background & journey</p>
-      
-      <div class="about-card">
-        <div class="about-info">
-          <h3>BCA Undergraduate</h3>
-          <p>
-            Currently pursuing my Bachelor of Computer Applications (BCA) at Vishveshwarya Group of Institutions. Enthusiastic about web development technologies and standard programming concepts.
-          </p>
-        </div>
-        <div>
-          <ul class="info-list">
-            <li><i class="fa-solid fa-user-graduate"></i> <strong>Degree:</strong> BCA (In Progress)</li>
-            <li><i class="fa-solid fa-building-columns"></i> <strong>Institute:</strong> Vishveshwarya Group of Institutions</li>
-            <li><i class="fa-solid fa-phone"></i> <strong>Phone:</strong> +91 9759585070</li>
-            <li><i class="fa-solid fa-location-dot"></i> <strong>Location:</strong> India</li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </section>
+        // Get display
+        const display = document.getElementById("display");
 
-  <!-- Skills Section -->
-  <section id="skills">
-    <div class="container">
-      <h2 class="section-title">Technical Skills</h2>
-      <p class="section-subtitle">Technologies I work with</p>
+        // Add number
+        function addNumber(number) {
 
-      <div class="skills-grid">
-        <div class="skill-card">
-          <i class="fa-brands fa-html5 skill-icon"></i>
-          <h3>HTML5</h3>
-        </div>
-        <div class="skill-card">
-          <i class="fa-brands fa-css3-alt skill-icon"></i>
-          <h3>CSS3</h3>
-        </div>
-        <div class="skill-card">
-          <i class="fa-brands fa-js skill-icon"></i>
-          <h3>JavaScript</h3>
-        </div>
-        <div class="skill-card">
-          <i class="fa-solid fa-code skill-icon"></i>
-          <h3>C Language</h3>
-        </div>
-      </div>
-    </div>
-  </section>
+            if (display.value === "0" || display.value === "Error") {
+                display.value = number;
+            } else {
+                display.value += number;
+            }
+        }
 
-  <!-- Projects Section -->
-  <section id="projects">
-    <div class="container">
-      <h2 class="section-title">My Projects</h2>
-      <p class="section-subtitle">Recent repositories from my GitHub</p>
 
-      <div class="projects-grid">
-        <!-- Project 1 -->
-        <div class="project-card">
-          <div class="project-content">
-            <h3 class="project-title">My First Login Page</h3>
-            <p class="project-desc">A modern and clean login interface page created using frontend technologies HTML and CSS.</p>
-            <div class="project-tags">
-              <span class="tag">HTML</span>
-              <span class="tag">CSS</span>
-            </div>
-            <a href="[https://github.com/nikhil2005mehrawal-creator/My-first-loginpage](https://github.com/nikhil2005mehrawal-creator/My-first-loginpage)" target="_blank" class="btn btn-secondary">
-              <i class="fa-brands fa-github"></i> GitHub Repo
-            </a>
-          </div>
-        </div>
+        // Add operator
+        function addOperator(operator) {
 
-        <!-- Project 2 -->
-        <div class="project-card">
-          <div class="project-content">
-            <h3 class="project-title">My First Webpage</h3>
-            <p class="project-desc">A foundational web development project exploring responsive structure and web standards.</p>
-            <div class="project-tags">
-              <span class="tag">HTML</span>
-              <span class="tag">CSS</span>
-            </div>
-            <a href="[https://github.com/nikhil2005mehrawal-creator/My-first-webpage-](https://github.com/nikhil2005mehrawal-creator/My-first-webpage-)" target="_blank" class="btn btn-secondary">
-              <i class="fa-brands fa-github"></i> GitHub Repo
-            </a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
+            if (display.value === "Error") {
+                display.value = "0";
+            }
 
-  <!-- Contact Section -->
-  <section id="contact">
-    <div class="container">
-      <h2 class="section-title">Get In Touch</h2>
-      <p class="section-subtitle">Feel free to connect with me</p>
+            let lastCharacter =
+                display.value.charAt(display.value.length - 1);
 
-      <div class="contact-container">
-        <div class="contact-info-card">
-          <div class="contact-item">
-            <div class="contact-icon"><i class="fa-solid fa-phone"></i></div>
-            <div>
-              <h4>Phone</h4>
-              <p>+91 9759585070</p>
-            </div>
-          </div>
-          <div class="contact-item">
-            <div class="contact-icon"><i class="fa-solid fa-graduation-cap"></i></div>
-            <div>
-              <h4>College</h4>
-              <p>Vishveshwarya Group of Institutions</p>
-            </div>
-          </div>
-          <div class="contact-item">
-            <div class="contact-icon"><i class="fa-brands fa-github"></i></div>
-            <div>
-              <h4>GitHub Profile</h4>
-              <p>nikhil2005mehrawal-creator</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
+            // Prevent multiple operators
+            if ("+-*/%".includes(lastCharacter)) {
+                display.value =
+                    display.value.slice(0, -1) + operator;
+            } else {
+                display.value += operator;
+            }
+        }
 
-  <!-- Footer -->
-  <footer>
-    <div class="container">
-      <p>&copy; 2026 Nikhil Singh. All rights reserved.</p>
-    </div>
-  </footer>
 
-  <script>
-    // Theme Toggle Script
-    const themeToggleBtn = document.getElementById('themeToggle');
-    const icon = themeToggleBtn.querySelector('i');
+        // Add decimal
+        function addDecimal() {
 
-    themeToggleBtn.addEventListener('click', () => {
-      const isLight = document.body.getAttribute('data-theme') === 'light';
-      if (isLight) {
-        document.body.removeAttribute('data-theme');
-        icon.className = 'fa-solid fa-moon';
-      } else {
-        document.body.setAttribute('data-theme', 'light');
-        icon.className = 'fa-solid fa-sun';
-      }
-    });
-  </script>
+            let expression = display.value;
+
+            // Get last number
+            let parts = expression.split(/[\+\-\*\/\%]/);
+            let lastNumber = parts[parts.length - 1];
+
+            // Don't allow two decimal points
+            if (!lastNumber.includes(".")) {
+
+                if (
+                    expression === "0" ||
+                    " +-*/%".includes(
+                        expression.charAt(expression.length - 1)
+                    )
+                ) {
+                    display.value += "0.";
+                } else {
+                    display.value += ".";
+                }
+            }
+        }
+
+
+        // Clear display
+        function clearDisplay() {
+            display.value = "0";
+        }
+
+
+        // Delete last character
+        function deleteLast() {
+
+            if (
+                display.value === "Error" ||
+                display.value.length === 1
+            ) {
+                display.value = "0";
+            } else {
+                display.value = display.value.slice(0, -1);
+            }
+        }
+
+
+        // Calculate result
+        function calculate() {
+
+            try {
+
+                let expression = display.value;
+
+                // Don't calculate if expression ends with operator
+                if ("+-*/%".includes(
+                    expression.charAt(expression.length - 1)
+                )) {
+                    expression = expression.slice(0, -1);
+                }
+
+                // Security: only allow calculator characters
+                if (!/^[0-9+\-*/%.() ]+$/.test(expression)) {
+                    display.value = "Error";
+                    return;
+                }
+
+                let result = Function(
+                    '"use strict"; return (' + expression + ')'
+                )();
+
+                if (!isFinite(result)) {
+                    display.value = "Error";
+                    return;
+                }
+
+                // Remove unnecessary decimal digits
+                result = Number(result.toFixed(10));
+
+                display.value = result;
+
+            } catch (error) {
+
+                display.value = "Error";
+
+            }
+        }
+
+
+        // Keyboard Support
+        document.addEventListener("keydown", function(event) {
+
+            const key = event.key;
+
+            // Numbers
+            if (key >= "0" && key <= "9") {
+                addNumber(key);
+            }
+
+            // Operators
+            else if (["+", "-", "*", "/", "%"].includes(key)) {
+                addOperator(key);
+            }
+
+            // Decimal
+            else if (key === ".") {
+                addDecimal();
+            }
+
+            // Enter / =
+            else if (key === "Enter" || key === "=") {
+                calculate();
+            }
+
+            // Backspace
+            else if (key === "Backspace") {
+                deleteLast();
+            }
+
+            // Escape = Clear
+            else if (key === "Escape") {
+                clearDisplay();
+            }
+
+        });
+
+    </script>
+
 </body>
 </html>
